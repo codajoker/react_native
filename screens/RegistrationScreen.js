@@ -17,6 +17,7 @@ import { colors } from "../styles/global";
 import PlusIcon from "../components/ui/PlusIcon";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import { registerDB } from "../utils/auth";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
@@ -42,9 +43,8 @@ const RegistrationScreen = ({ navigation }) => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const onSignUp = (data) => {
-    console.log(data);
-    console.log("Sig Up");
+  const onSignUp = () => {
+    registerDB({ email, password });
   };
 
   const onLogin = () => {

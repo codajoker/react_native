@@ -1,20 +1,22 @@
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
+import { useDispatch } from "react-redux";
 import { colors } from "../styles/global";
-
 import PostsScreen from "../screens/PostsScreen";
 import CreatePostScreen from "../screens/CreatePostsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import LogoutButton from "../components/ui/LogoutButton";
+import { logoutDB } from "../utils/auth";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const dispatch = useDispatch();
+
   return (
     <Tab.Navigator
-      initialRouteName="ProfileScreen"
+      initialRouteName="PostsScreen"
       screenOptions={({ navigation }) => ({
         tabBarLabel: "label",
         tabBarStyle: {
@@ -64,7 +66,7 @@ const BottomTabNavigator = () => {
           tabBarInactiveTintColor: "#212121",
           headerRightContainerStyle: { paddingRight: 8 },
           headerRight: () => (
-            <LogoutButton onPress={() => console.log("log out")} />
+            <LogoutButton onPress={() => logoutDB(dispatch)} />
           ),
           tabBarIcon: ({ focused }) => (
             <Ionicons

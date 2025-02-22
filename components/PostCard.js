@@ -6,6 +6,7 @@ import GeoMarkerIcon from "../icons/GeoMarkerIcon";
 import LikeIcon from "../icons/LikeIcon";
 
 export default function PostCard({
+  id,
   image = DefaultImage,
   name,
   comments = [],
@@ -14,6 +15,12 @@ export default function PostCard({
   isProfile = true,
 }) {
   const navigation = useNavigation();
+
+  const navigateToComments = () => {
+    navigation.navigate("Comments", {
+      postId: id,
+    });
+  };
 
   const navigateToMap = () => {
     navigation.navigate("Map", {
@@ -31,7 +38,7 @@ export default function PostCard({
           <View style={styles.item}>
             <TouchableOpacity
               style={styles.iconWrapper}
-              onPress={() => navigation.navigate("Comments")}
+              onPress={navigateToComments}
             >
               <CommentIcon />
             </TouchableOpacity>

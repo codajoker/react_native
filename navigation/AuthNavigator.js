@@ -1,34 +1,30 @@
 import { createStackNavigator } from "@react-navigation/stack";
-
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
-import LogoutButton from "../components/ui/LogoutButton";
 
 const Stack = createStackNavigator();
 
-const AuthNavigator = ({ setIsLoggedIn }) => {
+const AuthNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="Signup"
       screenOptions={{
         headerShown: true,
       }}
     >
       <Stack.Screen
         name="Login"
-        component={() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
+        component={LoginScreen}
         options={{
-          title: "First Screen",
+          title: "Login Screen",
           headerRightContainerStyle: { paddingRight: 8 },
-          headerRight: () => <LogoutButton />,
-          setIsLoggedIn: setIsLoggedIn,
         }}
       />
       <Stack.Screen
         name="Signup"
         component={RegistrationScreen}
         options={{
-          title: "Second Screen",
+          title: "Signup Screen",
         }}
       />
     </Stack.Navigator>

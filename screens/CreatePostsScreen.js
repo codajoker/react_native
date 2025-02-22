@@ -18,6 +18,8 @@ import CameraIcon from "../icons/CameraIcon";
 import TrashIcon from "../icons/TrashIcon";
 import DefaultImage from "../assets/default.jpg";
 import { colors } from "../styles/global";
+import { addPost } from "../utils/firestore";
+import { useSelector } from "react-redux";
 
 const CreatePostScreen = () => {
   const navigation = useNavigation();
@@ -28,6 +30,7 @@ const CreatePostScreen = () => {
   const [permissionCamera, requestCameraPermission] = useCameraPermissions();
   const [_, requestMediaLibraryPermission] = MediaLibrary.usePermissions();
   const cameraRef = useRef();
+  const { uid } = useSelector((state) => state.user.userData);
 
   useEffect(() => {
     async function requestLocationPermission() {
@@ -65,23 +68,23 @@ const CreatePostScreen = () => {
     setPostImage("");
     setPostName("");
     setPostLocation("");
-    navigation.navigate("Home", {
-      screen: "PostsScreen",
-      params: {
-        newPost: {
-          id: `${Date.now()}`,
-          image: postImage,
-          name: postName,
-          comments: [],
-          likes: 0,
-          location: {
-            name: postLocation,
-            lat: location?.coords?.latitude,
-            lon: location?.coords?.longitude,
-          },
-        },
+
+    const postId = `${Date.now()}`;
+
+    addPost(postId, {
+      id: postId,
+      image: postImage,
+      name: postName,
+      comments: [],
+      likes: 0,
+      location: {
+        name: postLocation,
+        lat: location?.coords?.latitude,
+        lon: location?.coords?.longitude,
       },
+      userId: uid,
     });
+    navigation.navigate("Home");
   };
 
   if (!permissionCamera) {

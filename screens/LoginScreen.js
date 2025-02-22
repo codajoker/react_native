@@ -16,10 +16,13 @@ import {
 import { colors } from "../styles/global";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import { loginDB } from "../utils/auth";
+import { useDispatch } from "react-redux";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const LoginScreen = ({ navigation, setIsLoggedIn }) => {
+const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -36,10 +39,8 @@ const LoginScreen = ({ navigation, setIsLoggedIn }) => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const onLogin = (data) => {
-    console.log(data);
-    setIsLoggedIn(true);
-    console.log("Log In");
+  const onLogin = () => {
+    loginDB({ email, password }, dispatch);
   };
 
   const onSignUp = () => {

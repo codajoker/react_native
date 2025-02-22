@@ -3,33 +3,42 @@ import { Image, StyleSheet, Text, View, FlatList } from "react-native";
 import UserAvatar from "../assets/keira-knightley.jpg";
 import PostCard from "../components/PostCard";
 import { colors } from "../styles/global";
+import { useSelector } from "react-redux";
+import { fetchAllPosts } from "../utils/firestore";
 
-const PostsScreen = ({ route }) => {
+const PostsScreen = () => {
   const [posts, setPosts] = useState([]);
-  const params = route?.params;
+  const { displayName, email } = useSelector((state) => state.user.userData);
 
   useEffect(() => {
-    if (!params?.newPost) {
-      return;
-    }
+    const getAllPosts = async () => {
+      try {
+        const result = await fetchAllPosts();
 
-    const updatedPosts = [...posts, params.newPost];
-    setPosts(updatedPosts);
-  }, [params]);
+        setPosts(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getAllPosts();
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.user}>
         <Image style={styles.userImage} source={UserAvatar} />
         <View>
-          <Text style={styles.userName}>Keira Knightley</Text>
-          <Text style={styles.userEmail}>keira.knightley@gmail.com</Text>
+          <Text style={styles.userName}>{displayName}</Text>
+          <Text style={styles.userEmail}>{email}</Text>
         </View>
       </View>
       <FlatList
         style={styles.postsList}
         data={posts}
-        renderItem={({ item }) => <PostCard {...item} isProfile={false} />}
+        renderItem={({ item }) => (
+          <PostCard {...item} isProfile={false} key={item.id} />
+        )}
         keyExtractor={(item) => item.id}
       />
     </View>
