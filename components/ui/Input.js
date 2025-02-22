@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { colors } from "../styles/global";
+
+import { colors } from "../../styles/global";
+
 const Input = ({
   value,
   onTextChange,
@@ -9,14 +11,22 @@ const Input = ({
   rightButton,
   autofocus = false,
   secureTextEntry = false,
+  onBlur: onBlurCustom,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
+
   const onFocus = () => {
     setIsFocused(true);
   };
+
   const onBlur = () => {
     setIsFocused(false);
+
+    if (onBlurCustom) {
+      onBlurCustom();
+    }
   };
+
   return (
     <View style={[styles.input, isFocused && styles.focused, outerStyles]}>
       <TextInput
@@ -30,6 +40,7 @@ const Input = ({
         onFocus={onFocus}
         onBlur={onBlur}
       />
+
       {rightButton}
     </View>
   );
@@ -45,7 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light_gray,
   },
   baseText: {
-    flex: 1,
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 18,

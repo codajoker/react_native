@@ -1,5 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { colors } from "../styles/global";
+
+import { colors } from "../../styles/global";
 
 const Button = ({ children, onPress, buttonStyle }) => {
   return (
