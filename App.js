@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./navigation/AuthNavigator";
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
+import RootNavigator from "./navigation/RootNavigator";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <NavigationContainer>
       {isLoggedIn ? (
-        <BottomTabNavigator />
+        <RootNavigator />
       ) : (
         <AuthNavigator setIsLoggedIn={setIsLoggedIn} />
       )}
